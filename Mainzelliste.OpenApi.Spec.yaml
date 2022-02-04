@@ -1,0 +1,459 @@
+openapi: 3.0.3
+info:
+  title: "mainzelliste API"
+  description: "mainzelliste API"
+  contact:
+    name: "Mainzelliste"
+    url: "http://www.mainzelliste.de"
+    email: "info@mainzelliste.de"
+  version: "3.3.0 DRAFT"
+servers:
+  - url: "https://mainzelliste"
+paths:
+  /:
+    get:
+      summary: "Output status information as JSON."
+      responses:
+        "200":
+          description: "A status message containing the distribution name and software version of this Mainzelliste instance."
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  distname:
+                    description: "Distribution name according to configuration parameter \"dist\"."
+                    type: "string"
+                  version:
+                    description: "Software version of this Mainzelliste instance."
+                    type: "string"
+                required: [
+                    "distname"
+                    "version"
+                ]
+                example:
+                  distname: "Mainzelliste"
+                  version: "1.9.0"
+            text/html:
+              schema:
+                type: "string"
+                example: "This is Mainzelliste running version 1.9.0 for Mainzelliste."
+  /configuration/fieldKeys:
+    get:
+      summary: "GET configuration/fieldKeys"
+      description: "Resource for querying configuration parameters via the REST interface. This resource is for internal use and subject to change.",
+      operationId: "getFieldKeys",
+      responses:
+        "200":
+          description: "Get field keys as an array of strings."
+          content: {
+            application/json: {
+              schema: {
+                description: "Field keys as an array of strings",
+                type: "array",
+                items: {
+                  type: "string"
+                },
+                minItems: 1,
+                uniqueItems: true
+              }
+            }
+          }
+  /html/addPatient:
+    get:
+      summary: "GET html/addPatient"
+      parameters:
+        - name: "tokenId"
+          in: "query"
+      responses:
+        "200":
+          description: "OK"
+  /html/admin/editPatient:
+    get:
+      summary: "GET html/admin/editPatient"
+      parameters:
+        - name: "idType"
+          in: "query"
+        - name: "idString"
+          in: "query"
+      responses:
+        "200":
+          description: "OK"
+    post:
+      summary: "POST html/admin/editPatient"
+      parameters:
+        - name: "idType"
+          in: "query"
+        - name: "idString"
+          in: "query"
+      responses:
+        "200":
+          description: "OK"
+  /html/admin/viewAuditTrail:
+    get:
+      summary: "GET html/admin/viewAuditTrail"
+      parameters:
+        - name: "idType"
+          in: "query"
+        - name: "idString"
+          in: "query"
+      responses:
+        "200":
+          description: "OK"
+  /html/createPatient:
+    get:
+      summary: "GET html/createPatient"
+      parameters:
+        - name: "tokenId"
+          in: "query"
+      responses:
+        "200":
+          description: "OK"
+  /html/editPatient:
+    get:
+      summary: "GET html/editPatient"
+      parameters:
+        - name: "tokenId"
+          in: "query"
+      responses:
+        "200":
+          description: "OK"
+  /html/logo:
+    get:
+      summary: "GET html/logo"
+      responses:
+        "200":
+          description: "OK"
+  /jobs:
+    post:
+      summary: "POST jobs"
+      parameters:
+        - name: "tokenId"
+          in: "query"
+      responses:
+        "200":
+          description: "OK"
+  /jobs/{jobId}/:
+    get:
+      summary: "GET jobs/{jobId}/"
+      parameters:
+        - name: "jobId"
+          in: "path"
+        - name: "tokenId"
+          in: "query"
+      responses:
+        "200":
+          description: "OK"
+  /monitoring/metrics/IDRequestCount:
+    get:
+      summary: "GET monitoring/metrics/IDRequestCount"
+      parameters:
+        - name: "start"
+          in: "query"
+        - name: "end"
+          in: "query"
+      responses:
+        "200":
+          description: "OK"
+  /monitoring/metrics/patientCount:
+    get:
+      summary: "GET monitoring/metrics/patientCount"
+      responses:
+        "200":
+          description: "OK"
+  /monitoring/metrics/tentativePatientCount:
+    get:
+      summary: "GET monitoring/metrics/tentativePatientCount"
+      responses:
+        "200":
+          description: "OK"
+  /monitoring/status/cpuInfo:
+    get:
+      summary: "GET monitoring/status/cpuInfo"
+      responses:
+        "200":
+          description: "OK"
+  /monitoring/status/memoryInfo:
+    get:
+      summary: "GET monitoring/status/memoryInfo"
+      responses:
+        "200":
+          description: "OK"
+  /patients:
+    get:
+      summary: "Get a list of patients."
+      operationId: "getPatients"
+      parameters:
+        - name: "tokenId"
+          in: "query"
+          description: "Id of a valid \"readPatients\" token.",
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: "get all patients."
+          content:
+            "application/json":
+              schema:
+                type: "array"
+                title: "array of Patient"
+                items:
+                  type: "object"
+                  title: "Patient Object"
+                  default:
+                  required:
+                    - "fields"
+                    - "ids"
+                  properties:
+                    fields:
+                      type: "object"
+                      title: "patient fields"
+                      additionalProperties:
+                        type: "string"
+                    ids:
+                      type: "array"
+                      title: "patient ids"
+                      items:
+                        type: "object"
+                        required:
+                          - idType
+                          - idString
+                        properties:
+                          idType:
+                            type: "string"
+                          idString:
+                            type: "string"
+                        additionalProperties: false
+        "401":
+          description: "Invalid Token."
+          content:
+            "application/json":
+              schema:
+                type: "string"
+    post:
+      summary: Add Patient
+      operationId: addPatient
+      parameters:
+        - name: tokenId
+          in: query
+          description: Id of a valid "readPatients" token.
+          required: true
+          schema:
+            type: string
+        - name: mainzellisteApiVersion
+          in: header
+          description: version of mainzelliste api.
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              title: Daten
+              description: IDAT fields and external Ids
+              type: object
+              properties:
+                sureness:
+                  type: boolean
+                  default: false
+        required: true
+      responses:
+        '201':
+          description: patient.
+          content:
+            application/json:
+              schema:
+                type: array
+                title: array of Patient
+                items:
+                  type: object
+                  title: Patient Object
+                  default: {}
+                  required:
+                    - idType
+                    - idString
+                    - tentative
+                    - uri
+                  properties:
+                    idType:
+                      description: Typ of the pseudonym
+                      type: string
+                    idString:
+                      description: Value of the pseudonym
+                      type: string
+                    tentative:
+                      description: If true, the patient is considered to be a duplicate
+                      type: boolean
+                    uri:
+                      description: URI of the ID
+                      type: string
+
+  /patients/checkMatch/{tokenId}:
+    post:
+      summary: "POST patients/checkMatch/{tokenId}"
+      parameters:
+        - name: "tokenId"
+          in: "path"
+      responses:
+        "200":
+          description: "OK"
+  /patients/tokenId/{tokenId}:
+    summary: "Get or Create Patients."
+    get:
+      summary: Get a list of patients.
+      operationId: getPatientsWithToken
+      parameters:
+        - name: tokenId
+          in: path
+          description: Id of a valid "readPatients" token.
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          "$ref": "/paths/patients/get/responses/200"
+        '401':
+          "$ref": "/paths/patients/get/responses/401"
+    put:
+      summary: "PUT patients/tokenId/{tokenId}"
+      parameters:
+        - name: "tokenId"
+          in: "path"
+      responses:
+        "200":
+          description: "OK"
+  /patients/{tokenId}/{idType}/{idString}:
+    delete:
+      summary: "DELETE patients/{tokenId}/{idType}/{idString}"
+      parameters:
+        - name: "tokenId"
+          in: "path"
+        - name: "idType"
+          in: "path"
+        - name: "idString"
+          in: "path"
+        - name: "withDuplicates"
+          in: "query"
+      responses:
+        "200":
+          description: "OK"
+  /sessions:
+    post:
+      summary: "POST sessions"
+      responses:
+        "200":
+          description: "OK"
+  /sessions/{session}:
+    get:
+      summary: "GET sessions/{session}"
+      parameters:
+        - name: "session"
+          in: "path"
+      responses:
+        "200":
+          description: "OK"
+    delete:
+      summary: "DELETE sessions/{session}"
+      parameters:
+        - name: "session"
+          in: "path"
+      responses:
+        "200":
+          description: "OK"
+  /sessions/{session}/patients/:
+    get:
+      summary: "GET sessions/{session}/patients/"
+      parameters:
+        - name: "session"
+          in: "path"
+      responses:
+        "200":
+          description: "OK"
+    put:
+      summary: "PUT sessions/{session}/patients/"
+      parameters:
+        - name: "session"
+          in: "path"
+      responses:
+        "200":
+          description: "OK"
+    post:
+      summary: "POST sessions/{session}/patients/"
+      parameters:
+        - name: "session"
+          in: "path"
+      responses:
+        "200":
+          description: "OK"
+    delete:
+      summary: "DELETE sessions/{session}/patients/"
+      parameters:
+        - name: "session"
+          in: "path"
+      responses:
+        "200":
+          description: "OK"
+  /sessions/{session}/patients/{idType}/{idString}:
+    delete:
+      summary: "DELETE sessions/{session}/patients/{idType}/{idString}"
+      parameters:
+        - name: "session"
+          in: "path"
+        - name: "idType"
+          in: "path"
+        - name: "idString"
+          in: "path"
+      responses:
+        "200":
+          description: "OK"
+  /sessions/{session}/tokens:
+    get:
+      summary: "GET sessions/{session}/tokens"
+      parameters:
+        - name: "session"
+          in: "path"
+      responses:
+        "200":
+          description: "OK"
+    post:
+      summary: "POST sessions/{session}/tokens"
+      parameters:
+        - name: "session"
+          in: "path"
+      responses:
+        "200":
+          description: "OK"
+  /sessions/{session}/tokens/{tokenid}:
+    get:
+      summary: "GET sessions/{session}/tokens/{tokenid}"
+      parameters:
+        - name: "session"
+          in: "path"
+        - name: "tokenid"
+          in: "path"
+      responses:
+        "200":
+          description: "OK"
+    delete:
+      summary: "DELETE sessions/{session}/tokens/{tokenid}"
+      parameters:
+        - name: "session"
+          in: "path"
+        - name: "tokenid"
+          in: "path"
+      responses:
+        "200":
+          description: "OK"
+  /validate/token:
+    get:
+      summary: "GET validate/token"
+      parameters:
+        - name: "tokenId"
+          in: "query"
+      responses:
+        "200":
+          description: "OK"
+externalDocs:
+  description: Find more info here
+  url: http://www.mainzelliste.de
