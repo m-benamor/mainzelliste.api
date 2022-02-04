@@ -28,7 +28,7 @@ paths:
                     description: "Software version of this Mainzelliste instance."
                     type: "string"
                 required: [
-                    "distname"
+                    "distname",
                     "version"
                 ]
                 example:
@@ -41,8 +41,8 @@ paths:
   /configuration/fieldKeys:
     get:
       summary: "GET configuration/fieldKeys"
-      description: "Resource for querying configuration parameters via the REST interface. This resource is for internal use and subject to change.",
-      operationId: "getFieldKeys",
+      description: "Resource for querying configuration parameters via the REST interface. This resource is for internal use and subject to change."
+      operationId: "getFieldKeys"
       responses:
         "200":
           description: "Get field keys as an array of strings."
@@ -59,76 +59,14 @@ paths:
               }
             }
           }
-  /html/addPatient:
-    get:
-      summary: "GET html/addPatient"
-      parameters:
-        - name: "tokenId"
-          in: "query"
-      responses:
-        "200":
-          description: "OK"
-  /html/admin/editPatient:
-    get:
-      summary: "GET html/admin/editPatient"
-      parameters:
-        - name: "idType"
-          in: "query"
-        - name: "idString"
-          in: "query"
-      responses:
-        "200":
-          description: "OK"
-    post:
-      summary: "POST html/admin/editPatient"
-      parameters:
-        - name: "idType"
-          in: "query"
-        - name: "idString"
-          in: "query"
-      responses:
-        "200":
-          description: "OK"
-  /html/admin/viewAuditTrail:
-    get:
-      summary: "GET html/admin/viewAuditTrail"
-      parameters:
-        - name: "idType"
-          in: "query"
-        - name: "idString"
-          in: "query"
-      responses:
-        "200":
-          description: "OK"
-  /html/createPatient:
-    get:
-      summary: "GET html/createPatient"
-      parameters:
-        - name: "tokenId"
-          in: "query"
-      responses:
-        "200":
-          description: "OK"
-  /html/editPatient:
-    get:
-      summary: "GET html/editPatient"
-      parameters:
-        - name: "tokenId"
-          in: "query"
-      responses:
-        "200":
-          description: "OK"
-  /html/logo:
-    get:
-      summary: "GET html/logo"
-      responses:
-        "200":
-          description: "OK"
   /jobs:
     post:
       summary: "POST jobs"
       parameters:
         - name: "tokenId"
+          required: true
+          schema:
+            type: string
           in: "query"
       responses:
         "200":
@@ -138,8 +76,14 @@ paths:
       summary: "GET jobs/{jobId}/"
       parameters:
         - name: "jobId"
+          required: true
+          schema:
+            type: integer
           in: "path"
         - name: "tokenId"
+          required: true
+          schema:
+            type: string
           in: "query"
       responses:
         "200":
@@ -150,8 +94,14 @@ paths:
       parameters:
         - name: "start"
           in: "query"
+          required: true
+          schema:
+            type: integer
         - name: "end"
           in: "query"
+          required: true
+          schema:
+            type: integer
       responses:
         "200":
           description: "OK"
@@ -186,7 +136,7 @@ paths:
       parameters:
         - name: "tokenId"
           in: "query"
-          description: "Id of a valid \"readPatients\" token.",
+          description: "Id of a valid \"readPatients\" token."
           required: true
           schema:
             type: string
@@ -294,6 +244,9 @@ paths:
       summary: "POST patients/checkMatch/{tokenId}"
       parameters:
         - name: "tokenId"
+          required: true
+          schema:
+            type: string
           in: "path"
       responses:
         "200":
@@ -320,6 +273,9 @@ paths:
       parameters:
         - name: "tokenId"
           in: "path"
+          required: true
+          schema:
+            type: string
       responses:
         "200":
           description: "OK"
@@ -329,12 +285,24 @@ paths:
       parameters:
         - name: "tokenId"
           in: "path"
+          required: true
+          schema:
+            type: string
         - name: "idType"
           in: "path"
+          required: true
+          schema:
+            type: string
         - name: "idString"
           in: "path"
+          required: true
+          schema:
+            type: string
         - name: "withDuplicates"
           in: "query"
+          required: false
+          schema:
+            type: boolean
       responses:
         "200":
           description: "OK"
@@ -350,6 +318,9 @@ paths:
       parameters:
         - name: "session"
           in: "path"
+          required: true
+          schema:
+            type: string
       responses:
         "200":
           description: "OK"
@@ -358,6 +329,9 @@ paths:
       parameters:
         - name: "session"
           in: "path"
+          required: true
+          schema:
+            type: string
       responses:
         "200":
           description: "OK"
@@ -367,6 +341,9 @@ paths:
       parameters:
         - name: "session"
           in: "path"
+          required: true
+          schema:
+            type: string
       responses:
         "200":
           description: "OK"
@@ -375,6 +352,9 @@ paths:
       parameters:
         - name: "session"
           in: "path"
+          required: true
+          schema:
+            type: string
       responses:
         "200":
           description: "OK"
@@ -383,6 +363,9 @@ paths:
       parameters:
         - name: "session"
           in: "path"
+          required: true
+          schema:
+            type: string
       responses:
         "200":
           description: "OK"
@@ -391,6 +374,9 @@ paths:
       parameters:
         - name: "session"
           in: "path"
+          required: true
+          schema:
+            type: string
       responses:
         "200":
           description: "OK"
@@ -400,10 +386,19 @@ paths:
       parameters:
         - name: "session"
           in: "path"
+          required: true
+          schema:
+            type: string
         - name: "idType"
           in: "path"
+          required: true
+          schema:
+            type: string
         - name: "idString"
           in: "path"
+          required: true
+          schema:
+            type: string
       responses:
         "200":
           description: "OK"
@@ -413,6 +408,9 @@ paths:
       parameters:
         - name: "session"
           in: "path"
+          required: true
+          schema:
+            type: string
       responses:
         "200":
           description: "OK"
@@ -421,6 +419,9 @@ paths:
       parameters:
         - name: "session"
           in: "path"
+          required: true
+          schema:
+            type: string
       responses:
         "200":
           description: "OK"
@@ -430,8 +431,14 @@ paths:
       parameters:
         - name: "session"
           in: "path"
+          required: true
+          schema:
+            type: string
         - name: "tokenid"
           in: "path"
+          required: true
+          schema:
+            type: string
       responses:
         "200":
           description: "OK"
@@ -440,8 +447,14 @@ paths:
       parameters:
         - name: "session"
           in: "path"
+          required: true
+          schema:
+            type: string
         - name: "tokenid"
           in: "path"
+          required: true
+          schema:
+            type: string
       responses:
         "200":
           description: "OK"
@@ -451,6 +464,9 @@ paths:
       parameters:
         - name: "tokenId"
           in: "query"
+          required: true
+          schema:
+            type: string
       responses:
         "200":
           description: "OK"
