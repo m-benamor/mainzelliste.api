@@ -1,4 +1,4 @@
-openapi: 3.0.3
+openapi: "3.0.3"
 info:
   title: "mainzelliste API"
   description: "mainzelliste API"
@@ -27,10 +27,9 @@ paths:
                   version:
                     description: "Software version of this Mainzelliste instance."
                     type: "string"
-                required: [
-                    "distname",
-                    "version"
-                ]
+                required:
+                  - "distname"
+                  - "version"
                 example:
                   distname: "Mainzelliste"
                   version: "1.9.0"
@@ -46,28 +45,109 @@ paths:
       responses:
         "200":
           description: "Get field keys as an array of strings."
-          content: {
-            application/json: {
-              schema: {
-                description: "Field keys as an array of strings",
-                type: "array",
-                items: {
+          content:
+            application/json:
+              schema:
+                description: "Field keys as an array of strings"
+                type: "array"
+                items:
                   type: "string"
-                },
-                minItems: 1,
+                minItems: 1
                 uniqueItems: true
-              }
-            }
-          }
+
+
+
+  /html/addPatient:
+    get:
+      summary: "GET html/addPatient"
+      parameters:
+        - name: "tokenId"
+          in: "query"
+          schema:
+            type: string
+      responses:
+        "200":
+          description: "OK"
+  /html/admin/editPatient:
+    get:
+      summary: "GET html/admin/editPatient"
+      parameters:
+        - name: "idType"
+          in: "query"
+          schema:
+            type: string
+        - name: "idString"
+          in: "query"
+          schema:
+            type: string
+      responses:
+        "200":
+          description: "OK"
+    post:
+      summary: "POST html/admin/editPatient"
+      parameters:
+        - name: "idType"
+          in: "query"
+          schema:
+            type: string
+        - name: "idString"
+          in: "query"
+          schema:
+            type: string
+      responses:
+        "200":
+          description: "OK"
+  /html/admin/viewAuditTrail:
+    get:
+      summary: "GET html/admin/viewAuditTrail"
+      parameters:
+        - name: "idType"
+          in: "query"
+          schema:
+            type: string
+        - name: "idString"
+          in: "query"
+          schema:
+            type: string
+      responses:
+        "200":
+          description: "OK"
+  /html/createPatient:
+    get:
+      summary: "GET html/createPatient"
+      parameters:
+        - name: "tokenId"
+          in: "query"
+          schema:
+            type: string
+      responses:
+        "200":
+          description: "OK"
+  /html/editPatient:
+    get:
+      summary: "GET html/editPatient"
+      parameters:
+        - name: "tokenId"
+          in: "query"
+          schema:
+            type: string
+      responses:
+        "200":
+          description: "OK"
+  /html/logo:
+    get:
+      summary: "GET html/logo"
+      responses:
+        "200":
+          description: "OK"
   /jobs:
     post:
       summary: "POST jobs"
       parameters:
         - name: "tokenId"
-          required: true
+          in: "query"
           schema:
             type: string
-          in: "query"
       responses:
         "200":
           description: "OK"
@@ -76,15 +156,14 @@ paths:
       summary: "GET jobs/{jobId}/"
       parameters:
         - name: "jobId"
-          required: true
-          schema:
-            type: integer
           in: "path"
-        - name: "tokenId"
           required: true
           schema:
             type: string
+        - name: "tokenId"
           in: "query"
+          schema:
+            type: string
       responses:
         "200":
           description: "OK"
@@ -94,14 +173,12 @@ paths:
       parameters:
         - name: "start"
           in: "query"
-          required: true
           schema:
-            type: integer
+            type: string
         - name: "end"
           in: "query"
-          required: true
           schema:
-            type: integer
+            type: string
       responses:
         "200":
           description: "OK"
@@ -144,14 +221,14 @@ paths:
         "200":
           description: "get all patients."
           content:
-            "application/json":
+            application/json:
               schema:
                 type: "array"
                 title: "array of Patient"
                 items:
                   type: "object"
                   title: "Patient Object"
-                  default:
+                  default: { }
                   required:
                     - "fields"
                     - "ids"
@@ -219,7 +296,7 @@ paths:
                 items:
                   type: object
                   title: Patient Object
-                  default: {}
+                  default: { }
                   required:
                     - idType
                     - idString
@@ -244,10 +321,10 @@ paths:
       summary: "POST patients/checkMatch/{tokenId}"
       parameters:
         - name: "tokenId"
+          in: "path"
           required: true
           schema:
             type: string
-          in: "path"
       responses:
         "200":
           description: "OK"
@@ -265,9 +342,9 @@ paths:
             type: string
       responses:
         '200':
-          "$ref": "/paths/patients/get/responses/200"
+          "$ref": "#/paths/patients/get/responses/200"
         '401':
-          "$ref": "/paths/patients/get/responses/401"
+          "$ref": "#/paths/patients/get/responses/401"
     put:
       summary: "PUT patients/tokenId/{tokenId}"
       parameters:
@@ -300,9 +377,8 @@ paths:
             type: string
         - name: "withDuplicates"
           in: "query"
-          required: false
           schema:
-            type: boolean
+            type: string
       responses:
         "200":
           description: "OK"
@@ -464,7 +540,6 @@ paths:
       parameters:
         - name: "tokenId"
           in: "query"
-          required: true
           schema:
             type: string
       responses:
