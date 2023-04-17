@@ -3,7 +3,7 @@ window.onload = function() {
 
   // the following lines will be replaced by docker/configurator, when it runs in a docker-container
   window.ui = SwaggerUIBundle({
-    url: "Mainzelliste.OpenApi.Spec.yaml",
+    url: "https://bitbucket.org/medicalinformatics/mainzelliste/raw/master/resources/Mainzelliste.OpenApi.Spec.yaml",
     dom_id: '#swagger-ui',
     deepLinking: true,
     presets: [
